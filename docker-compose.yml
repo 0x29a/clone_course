@@ -1,0 +1,54 @@
+version: "2.1"
+services:
+  db:
+    image: mysql:5.6
+    container_name: clone_course.db
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    networks:
+      - devstack_default
+    volumes:
+      - clone_course_mysql:/var/lib/mysql
+
+  memcache:
+    image: memcached:1.4.24
+    container_name: clone_course.memcache
+
+  celery_worker:
+    # Use the same image as the app service
+    image: openedx/clone_course
+    container_name: clone_course.celery_worker
+    command: celery -A clone_course worker -l info
+    environment:
+      DJANGO_SETTINGS_MODULE: clone_course.settings.devstack
+      PYTHONPATH:
+    networks:
+      - devstack_default
+
+  app:
+    # Uncomment this line to use the official clone_course base image
+    image: openedx/clone_course
+
+    container_name: clone_course.app
+    volumes:
+      - .:/edx/app/clone_course/
+    command: bash -c 'while true; do python /edx/app/clone_course/manage.py runserver 0.0.0.0:8000; sleep 2; done'
+    environment:
+      DJANGO_SETTINGS_MODULE: clone_course.settings.devstack
+      PYTHONPATH: 
+    ports:
+      - "8000:8000" # TODO: change this to your port
+    depends_on:
+      - celery_worker
+    networks:
+      - devstack_default
+    stdin_open: true
+    tty: true
+
+networks:
+  devstack_default:
+    external: true
+
+volumes:
+  clone_course_mysql:

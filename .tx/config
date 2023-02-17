@@ -1,0 +1,14 @@
+[main]
+host = https://www.transifex.com
+
+[edx-platform.clone_course]
+file_filter = clone_course/conf/locale/<lang>/LC_MESSAGES/django.po
+source_file = clone_course/conf/locale/en/LC_MESSAGES/django.po
+source_lang = en
+type = PO
+
+[edx-platform.clone_course-js]
+file_filter = clone_course/conf/locale/<lang>/LC_MESSAGES/djangojs.po
+source_file = clone_course/conf/locale/en/LC_MESSAGES/djangojs.po
+source_lang = en
+type = PO

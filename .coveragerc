@@ -1,0 +1,12 @@
+[run]
+branch = True
+data_file = .coverage
+source=clone_course
+omit =
+    clone_course/settings*
+    clone_course/conf*
+    *wsgi.py
+    *migrations*
+    *admin.py
+    *static*
+    *templates*
