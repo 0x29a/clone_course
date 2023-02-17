@@ -1,79 +1,38 @@
 clone_course
 #############################
 
-.. note::
-
-  This README was auto-generated. Maintainer: please review its contents and
-  update all relevant sections. Instructions to you are marked with
-  "PLACEHOLDER" or "TODO". Update or remove those sections, and remove this
-  note when you are done.
-
 |pypi-badge| |ci-badge| |codecov-badge| |doc-badge| |pyversions-badge|
 |license-badge| |status-badge|
 
 Purpose
 *******
 
-IDA for cloning courses
+Django application that provides a service for cloning courses in an Open edX instance.
 
-TODO: The ``README.rst`` file should start with a brief description of the repository and its purpose.
-It should be described in the context of other repositories under the ``openedx``
-organization. It should make clear where this fits in to the overall Open edX
-codebase and should be oriented towards people who are new to the Open edX
-project.
+The application provides a RESTful API that can be used to create a new course by cloning an existing one.
+The application uses Celery to perform the cloning operation in the background,
+and provides a task status endpoint to check the status of the task.
+
 
 Getting Started
 ***************
 
-Developing
+Prerequisites
 ==========
+- Docker and Docker Compose
+- Python 3.x
+- Virtualenv
 
-One Time Setup
---------------
-.. code-block::
-
-  # Clone the repository
-  git clone git@github.com:openedx/clone_course.git
-  cd clone_course
-
-  # Set up a virtualenv using virtualenvwrapper with the same name as the repo and activate it
-  mkvirtualenv -p python3.8 clone_course
-
-
-Every time you develop something in this repo
----------------------------------------------
-.. code-block::
-
-  # Activate the virtualenv
-  workon clone_course
-
-  # Grab the latest code
-  git checkout main
-  git pull
-
-  # Install/update the dev requirements
-  make requirements
-
-  # Run the tests and quality checks (to verify the status before you make any changes)
-  make validate
-
-  # Make a new branch for your changes
-  git checkout -b <your_github_username>/<short_description>
-
-  # Using your favorite editor, edit the code to make your change.
-  vim ...
-
-  # Run your new tests
-  pytest ./path/to/new/tests
-
-  # Run all the tests and quality checks
-  make validate
-
-  # Commit all your changes
-  git commit ...
-  git push
-
-  # Open a PR and ask for review.
+Devstack Setup
+==========
+1. Ensure that the Open edX platform devstack is running. Devstack won't run the Celery message broker by default.
+   Ensure to start the redis broker by running the command ``make dev.up.redis``.
+   (note: edx-platform should have the changes from `this commit`_)
+.. _this commit: https://github.com/open-craft/edx-platform/commit/6dbef5a2478cc683bc17111024892edabf47b50e
+2. Create a Python 3 virtual environment for the project.
+3. Install the required Python packages by running the command:``make dev.requirements``.
+4. Start the services for this project by running the command:``make dev.up``.
+5. Setup required oauth application with LMS, by running the command:``./provision-clone_course.sh``.
 
 Deploying
 =========
@@ -84,6 +43,63 @@ commands? Is there a larger how-to that should be linked here?
 PLACEHOLDER: For details on how to deploy this component, see the `deployment how-to`_
 
 .. _deployment how-to: https://docs.openedx.org/projects/clone_course/how-tos/how-to-deploy-this-component.html
+
+Usage
+-----
+
+API Endpoints
+*************
+
+**Clone course**
+
+``POST /api/v1/clone/clone/``
+
+This API endpoint is used to clone an existing course to a new course.
+
+The request body should contain a JSON object with the following fields:
+
+- ``source_course_id``: The ID of the course to clone.
+- ``destination_course_id``: The ID of the new course.
+
+Example Request:
+
+.. code-block:: json
+
+    {
+        "source_course_id": "course-v1:edX+DemoX+Demo_Course",
+        "destination_course_id": "course-v1:new+TestX+Demo_Course_Clone",
+    }
+
+Example Response:
+
+.. code-block:: json
+
+    {
+        "task_id": "4f95e48a-8b68-45dc-942f-9ac19d5af352"
+    }
+
+**Check clone status**
+
+``GET /api/v1/clone/status/``
+
+This API endpoint is used to check the status of a cloning task.
+
+The request should include a query parameter ``task_id`` with the ID of the cloning task.
+
+Example Request:
+
+.. code-block:: http
+
+    GET /api/v1/clone/status/?task_id=4f95e48a-8b68-45dc-942f-9ac19d5af352
+
+Example Response:
+
+.. code-block:: json
+
+    {
+        "status": "SUCCESS"
+    }
+
 
 Getting Help
 ************
