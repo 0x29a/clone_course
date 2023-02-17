@@ -57,8 +57,8 @@ static: ## generate static files
 shell: ## run Django shell
 	python manage.py shell
 
-test: clean ## run tests and generate coverage report
-	pytest
+test: clean
+	DJANGO_SETTINGS_MODULE=clone_course.settings.test pytest
 
 # To be run from CI context
 coverage: clean

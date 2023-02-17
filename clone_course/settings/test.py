@@ -14,3 +14,6 @@ DATABASES = {
     },
 }
 # END IN-MEMORY TEST DATABASE
+
+OAUTH2_PROVIDER_URL = 'http://example.com/oauth2'
+STUDIO_ROOT_URL = 'http://example.com/'
