@@ -37,6 +37,7 @@ class StudioApi:
             # by slumber, but now with requests module, we need to manually add it.
             exc.content = response.content
             raise exc
+        return response.json()
     
     def generate_data_for_studio_api(self, source_id, dest_id):
         if not source_id:
@@ -56,4 +57,5 @@ class StudioApi:
     
     def clone_course_in_studio(self, source_id, dest_id):
         data = self.generate_data_for_studio_api(source_id, dest_id)
-        self._request('post', 'course_runs/clone/', json=data)
+        response = self._request('post', 'course_runs/clone/', json=data)
+        return response

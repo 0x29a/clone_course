@@ -248,7 +248,7 @@ importlib-metadata==6.0.0
     #   -r requirements/quality.txt
     #   keyring
     #   twine
-importlib-resources==5.10.2
+importlib-resources==5.12.0
     # via
     #   -r requirements/quality.txt
     #   keyring
@@ -296,7 +296,7 @@ lazy-object-proxy==1.9.0
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
     #   astroid
-markdown-it-py==2.1.0
+markdown-it-py==2.2.0
     # via
     #   -r requirements/quality.txt
     #   rich
@@ -326,7 +326,7 @@ mysqlclient==2.1.1
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
-newrelic==8.6.0
+newrelic==8.7.0
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
@@ -369,7 +369,7 @@ pluggy==1.0.0
     #   -r requirements/test.txt
     #   pytest
     #   tox
-prompt-toolkit==3.0.36
+prompt-toolkit==3.0.37
     # via
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
@@ -659,7 +659,7 @@ wrapt==1.14.1
     #   -r requirements/quality.txt
     #   -r requirements/test.txt
     #   astroid
-zipp==3.13.0
+zipp==3.14.0
     # via
     #   -r requirements/quality.txt
     #   importlib-metadata

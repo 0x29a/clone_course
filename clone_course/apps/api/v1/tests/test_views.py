@@ -28,9 +28,20 @@ class TestCloneCourseViewSet(TestCase):
         Test for calling status get api
         """
         task_id = "12345"
+        mock_response = {
+            'source_id': 'abc',
+            'dest_id': 'def',
+            'response': {'message': 'Course cloned successfully'}
+        }
         with patch('clone_course.apps.api.v1.views.AsyncResult') as mock_async_result:
             mock_async_result.return_value.status = "SUCCESS"
+            mock_async_result.return_value.result = mock_response
             response =self.client.get('/api/v1/clone/status/', kwargs={'task_id': task_id})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, {"status": "SUCCESS"})
+        self.assertEqual(response.data, {
+            "status": "SUCCESS",
+            "source_id": "abc",
+            "dest_id": "def",
+            "response": {"message": "Course cloned successfully"}
+        })
 

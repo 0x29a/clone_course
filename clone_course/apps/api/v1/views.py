@@ -28,4 +28,10 @@ class CloneCourse(viewsets.ViewSet):
         """
         task_id = request.query_params.get("task_id")
         task = AsyncResult(task_id)
-        return Response({"status": task.status})
+        response = task.result
+        return Response({
+            "status": task.status,
+            "source_id": response.get('source_id', ""),
+            "dest_id": response.get('dest_id', ""),
+            "response": response.get('response', {}),
+        })

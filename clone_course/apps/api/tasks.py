@@ -12,5 +12,6 @@ def clone_course(source_id, dest_id):
     """
     logger.info("Task started for calling studio api for cloning course")
     api = StudioApi()
-    api.clone_course_in_studio(source_id=source_id, dest_id=dest_id)
+    response = api.clone_course_in_studio(source_id=source_id, dest_id=dest_id)
     logger.info("Task completed for calling studio api for cloning course")
+    return {'source_id': source_id, 'dest_id': dest_id, 'response': response}

@@ -30,7 +30,7 @@ Devstack Setup
    (note: edx-platform should have the changes from `this commit`_)
 .. _this commit: https://github.com/open-craft/edx-platform/commit/6dbef5a2478cc683bc17111024892edabf47b50e
 2. Create a Python 3 virtual environment for the project.
-3. Install the required Python packages by running the command:``make upgrade && make dev.requirements``.
+3. Install the required Python packages by running the command:``make upgrade && make dev_requirements``.
 4. Start the services for this project by running the command:``make dev.up``.
 5. Setup required oauth application with LMS, by running the command:``./provision-clone_course.sh``.
 
@@ -97,7 +97,10 @@ Example Response:
 .. code-block:: json
 
     {
-        "status": "SUCCESS"
+        "status": "SUCCESS",
+        "source_id": "course-v1:edX+DemoX+Demo_Course",
+        "dest_id": "course-v1:new+TestX+Demo_Course_Clone",
+        "response":{"message":"Course cloned successfully."}
     }
 
 
