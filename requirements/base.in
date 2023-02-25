@@ -8,6 +8,7 @@ django-extensions
 django-rest-swagger
 django-waffle
 djangorestframework
+whitenoise
 edx-auth-backends
 edx-django-utils
 edx-django-release-util

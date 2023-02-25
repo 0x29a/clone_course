@@ -51,6 +51,9 @@ INSTALLED_APPS += THIRD_PARTY_APPS
 INSTALLED_APPS += PROJECT_APPS
 
 MIDDLEWARE = (
+    # Self-hosting admin panel static files in production
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+
     # Resets RequestCache utility for added safety.
     'edx_django_utils.cache.middleware.RequestCacheMiddleware',
 
@@ -146,6 +149,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     root('static'),
 )
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # TEMPLATE CONFIGURATION
 # See: https://docs.djangoproject.com/en/3.2/ref/settings/#templates
